@@ -42,13 +42,22 @@ function AddMovieShowtime() {
     }
 
     const handleTimeRangeChange = (newValue) => {
+        const formatTime = (time) => {
+            if (!time) return '';
+            let hours = time.hour();
+            let minutes = time.minute();
+            if (hours === 0 && minutes === 0) {
+                return '12:00';
+            }
+            return time.format('HH:mm');
+        };
+    
         setShowtime((prevState) => ({
             ...prevState,
-            startTime: newValue[0] ? newValue[0].format('HH:mm') : '',
-            endTime: newValue[1] ? newValue[1].format('HH:mm') : ''
-        }))
+            startTime: formatTime(newValue[0]),
+            endTime: formatTime(newValue[1])
+        }));
     }
-
     const [cinemaHallName, setCinemaHallName] = useState([])
 
     useEffect(() => {
